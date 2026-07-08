@@ -1,0 +1,48 @@
+name: NovaBilling CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate_and_test:
+    name: Lint, Test, and Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+        targets: wasm32v1-none
+
+    - name: Cache Cargo Dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          novabilling/target
+        key: ${{ runner.os }}-cargo-novabilling-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-novabilling-
+
+    - name: Verify Code Formatting
+      run: cargo fmt --manifest-path novabilling/Cargo.toml --all -- --check
+
+    - name: Run Clippy Linter
+      run: cargo clippy --manifest-path novabilling/Cargo.toml --all-targets -- -D warnings
+
+    - name: Run Unit Tests
+      run: cargo test --manifest-path novabilling/Cargo.toml --all-targets
+
+    - name: Build Soroban Contract WASM
+      run: cargo build --manifest-path novabilling/Cargo.toml --target wasm32v1-none --release
