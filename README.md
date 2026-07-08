@@ -1,6 +1,6 @@
 # NovaBilling 🌊
 
-[![NovaBilling CI](https://github.com/Hellenjoseph/novabilling-/actions/workflows/ci.yml/badge.svg)](https://github.com/Hellenjoseph/novabilling-/actions/workflows/ci.yml)
+[![NovaBilling CI](https://github.com/Hellenjoseph/novabilling/actions/workflows/ci.yml/badge.svg)](https://github.com/Hellenjoseph/novabilling/actions/workflows/ci.yml)
 [![Soroban](https://img.shields.io/badge/Soroban-v26.1.0-blue.svg)](https://soroban.stellar.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](LICENSE)
 
